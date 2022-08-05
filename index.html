@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png" type="image/png">
+    <title>Link Previewer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+        *{
+            margin: 0;
+            padding: 10px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            height: 50vh;
+            justify-content: center;
+            flex-direction: column;
+        }
+        #links{
+            display:flex;
+            flex-direction: row;
+        }
+        #display{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 350px;
+            height: 150px;
+            justify-content: flex-start;
+        }
+        
+    </style>
+</head>
+<body>
+    <h2>Link Previewer using web scraping concept</h2>
+    <div id="links">
+        <a href="https://metatags.io/" target="_blank">Link Preview</a>
+        <a href="http://portfolio-mu-self-17.vercel.app/" target="_blank">Link Preview</a>
+        <a href="https://www.amazon.com" target="_blank">Link Preview</a>
+        <a href="https://stackoverflow.com/" target="_blank">Link Preview</a>
+    </div>
+    <div id="display">
+        <img src="https://i.gifer.com/ZZ5H.gif" id="ogimg" width="50px" height="50px"/>
+        <p id="description"></p>
+        <p id="title"></p>
+    </div>
+    <script>
+        var count = document.getElementsByTagName("a").length;
+        console.log(count);
+    </script>
+    <script>
+        [...document.getElementsByTagName('a')].forEach(function(item,i){
+                item.addEventListener('mouseover',function(){
+                    const xhttp = new XMLHttpRequest();
+                    xhttp.onload = function() {
+                        var body1 = this.responseText;
+                        var title = body1.match(/<title[^>]*>([^<]+)<\/title>/)[1];
+                        var pattern3 = /<meta.*?property="og:image".*?content="(.*?)".*?>/i;
+                        var pattern4 = /<meta.*?property="og:description".*?content="(.*?)".*?>/i;
+                        var image = body1.match(pattern3);
+                        var description = body1.match(pattern4);
+                        console.log(title);
+                        console.log(image);
+                        console.log(description);
+                        document.getElementById('title').innerHTML = title;
+                        document.getElementById('description').innerHTML = description[1];
+                        document.getElementById('ogimg').src = image[1];
+                        document.getElementById('ogimg').style.height = "200px";
+                        document.getElementById('ogimg').style.width = "200px";
+                        }
+                        xhttp.open("GET", item.href, true);
+                        xhttp.send();
+                    console.log(item.href);
+                    console.log(`link preview ${i}`);
+                });
+            });
+    </script>
+</body>
+</html>
