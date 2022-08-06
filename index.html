@@ -53,9 +53,9 @@
         console.log(count);
     </script>
     <script>
+        const xhttp = new XMLHttpRequest();
         [...document.getElementsByTagName('a')].forEach(function(item,i){
                 item.addEventListener('mouseover',function(){
-                    const xhttp = new XMLHttpRequest();
                     xhttp.onload = function() {
                         var body1 = this.responseText;
                         var title = body1.match(/<title[^>]*>([^<]+)<\/title>/)[1];
